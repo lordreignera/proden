@@ -686,14 +686,14 @@
                         <div class="img-placeholder" style="background: linear-gradient(135deg,#EDE7F6,#D1C4E9);">
                             🍵
                         </div>
-                        <span class="prod-type-badge badge-tea">Herbal Tea</span>
+                        <span class="prod-type-badge badge-tea">Hibiscus Tea</span>
                     </div>
                     <div class="card-body d-flex flex-column">
                         <div class="prod-name">🍵 Hibiscus Petal Tea 200g</div>
                         <div class="prod-meta mb-2">Dried petals &bull; 200g pack</div>
                         <div class="prod-price">UGX 5,000</div>
                         <p class="small text-muted mt-2">
-                            Whole dried Hibiscus petals for a warming, antioxidant-rich herbal tea.
+                            Whole dried Hibiscus petals for a warming, antioxidant-rich Hibiscus tea.
                             Simply steep in hot water and enjoy.
                         </p>
                         <a href="{{ route('shop.products') }}" class="btn-order mt-auto">
