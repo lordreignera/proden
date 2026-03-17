@@ -76,6 +76,11 @@
             <div class="row g-4">
                 @forelse($products as $product)
                     <div class="col-sm-6 col-xl-4">
+                        @php
+                            $unitLabel = ucfirst(str_replace('_', ' ', $product->unit));
+                            $priceSuffix = $product->unit === 'carton' ? '/ carton' : ($product->unit === 'jerry_can' ? '/ jerrycan' : '/ litre');
+                            $qtyLabel = $product->unit === 'carton' ? 'cartons' : ($product->unit === 'jerry_can' ? 'jerrycans' : 'litres');
+                        @endphp
                         <div class="card product-card h-100">
                             <div class="product-image">
                                 @if(!empty($product->image))
@@ -89,16 +94,16 @@
                             </div>
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title flex-grow-1 mb-2">{{ $product->name }}</h5>
-                                <p class="card-text text-muted small mb-3">{{ Str::limit($product->description, 70) }}</p>
+                                <p class="card-text text-muted small mb-3 product-desc">{{ Str::limit($product->description, 85) }}</p>
                                 <p class="mb-2 d-flex flex-wrap gap-2">
                                     <span class="badge unit-badge text-dark">
-                                        {{ ucfirst(str_replace('_', ' ', $product->unit)) }}
+                                        {{ $unitLabel }}
                                     </span>
                                     <span class="badge qty-badge bg-light text-secondary border">
-                                        {{ $product->stock }} units
+                                        {{ $product->stock }} {{ $qtyLabel }}
                                     </span>
                                 </p>
-                                <div class="product-price">UGX {{ number_format($product->price, 0) }}</div>
+                                <div class="product-price">UGX {{ number_format($product->price, 0) }} <span class="price-suffix">{{ $priceSuffix }}</span></div>
                                 <div class="mt-3 d-grid gap-2">
                                     <a href="{{ route('product.show', $product->slug) }}" class="btn btn-outline-primary btn-sm">
                                         <i class="fas fa-eye"></i> View
@@ -286,20 +291,23 @@ document.querySelectorAll('.form-check-input').forEach(checkbox => {
     }
 
     .product-image {
-        min-height: 128px;
-        background: linear-gradient(140deg, #f6f8ff 0%, #eff4ff 100%);
+        height: 230px;
+        background: #fff;
         display: flex;
         align-items: center;
         justify-content: center;
         position: relative;
         overflow: hidden;
+        border-bottom: 1px solid #eef2f8;
     }
 
     .product-photo {
         width: 100%;
         height: 100%;
-        min-height: 128px;
-        object-fit: cover;
+        object-fit: contain;
+        object-position: center;
+        padding: .65rem;
+        background: linear-gradient(140deg, #f8fafe 0%, #f0f4fb 100%);
     }
 
     .product-emoji {
@@ -337,6 +345,16 @@ document.querySelectorAll('.form-check-input').forEach(checkbox => {
         letter-spacing: -.4px;
     }
 
+    .price-suffix {
+        font-size: .82rem;
+        color: #6f7b90;
+        font-weight: 600;
+    }
+
+    .product-desc {
+        min-height: 2.8rem;
+    }
+
     .empty-state {
         background: #fff;
         border: 1px dashed #d8deea;
@@ -365,7 +383,7 @@ document.querySelectorAll('.form-check-input').forEach(checkbox => {
         }
 
         .product-image {
-            min-height: 110px;
+            height: 200px;
         }
 
         .product-emoji {
