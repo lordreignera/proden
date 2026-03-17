@@ -9,6 +9,63 @@
             <h1 class="mb-4">
                 <i class="fas fa-shopping-cart"></i> Shopping Cart
             </h1>
+
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="mb-3"><i class="fas fa-phone me-2"></i>Continue with your phone number</h5>
+                    <form method="GET" action="{{ route('cart.index') }}" class="row g-2 align-items-end">
+                        <div class="col-md-8">
+                            <label for="lookup_phone" class="form-label">Enter your phone number</label>
+                            <input type="text" id="lookup_phone" name="lookup_phone" value="{{ $lookupPhone ?? '' }}" class="form-control" placeholder="e.g. +256 772 494618">
+                        </div>
+                        <div class="col-md-4 d-grid">
+                            <button type="submit" class="btn btn-outline-primary">
+                                <i class="fas fa-search me-1"></i> Find My Orders
+                            </button>
+                        </div>
+                    </form>
+
+                    @if(!empty($lookupPhone))
+                        <hr>
+                        <div class="row g-3">
+                            <div class="col-lg-6">
+                                <h6 class="mb-2">Pending Orders</h6>
+                                @forelse($pendingLookupOrders as $order)
+                                    <div class="border rounded p-2 mb-2">
+                                        <div class="d-flex justify-content-between flex-wrap gap-2">
+                                            <strong>{{ $order->order_number }}</strong>
+                                            <span class="badge bg-warning text-dark">Pending Payment</span>
+                                        </div>
+                                        <small class="text-muted d-block mb-2">{{ $order->created_at->format('d M Y, H:i') }}</small>
+                                        <a href="{{ route('order.success', ['orderId' => $order->id, 'resume' => 1]) }}" class="btn btn-sm btn-success">
+                                            <i class="fas fa-mobile-alt me-1"></i> Continue Payment
+                                        </a>
+                                    </div>
+                                @empty
+                                    <div class="text-muted small">No pending orders found for this number.</div>
+                                @endforelse
+                            </div>
+                            <div class="col-lg-6">
+                                <h6 class="mb-2">Delivered / Completed Orders</h6>
+                                @forelse($deliveredLookupOrders as $order)
+                                    <div class="border rounded p-2 mb-2">
+                                        <div class="d-flex justify-content-between flex-wrap gap-2">
+                                            <strong>{{ $order->order_number }}</strong>
+                                            <span class="badge bg-success">Delivered</span>
+                                        </div>
+                                        <small class="text-muted d-block mb-2">{{ $order->created_at->format('d M Y, H:i') }}</small>
+                                        <a href="{{ route('order.receipt', $order->id) }}" class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-receipt me-1"></i> View Receipt
+                                        </a>
+                                    </div>
+                                @empty
+                                    <div class="text-muted small">No delivered orders found for this number.</div>
+                                @endforelse
+                            </div>
+                        </div>
+                    @endif
+                </div>
+            </div>
         </div>
     </div>
 
@@ -73,11 +130,24 @@
                     <form action="{{ route('cart.clear') }}" method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Clear entire cart?')">
-                            <i class="fas fa-trash"></i> Clear Cart
-                        </button>
+                        @if(!empty($activePendingOrder))
+                            <button type="button" class="btn btn-outline-secondary" disabled title="Complete payment and delivery confirmation first">
+                                <i class="fas fa-lock"></i> Clear Cart Locked
+                            </button>
+                        @else
+                            <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Clear entire cart?')">
+                                <i class="fas fa-trash"></i> Clear Cart
+                            </button>
+                        @endif
                     </form>
                 </div>
+
+                @if(!empty($activePendingOrder))
+                    <div class="alert alert-warning mt-3 mb-0">
+                        <i class="fas fa-info-circle"></i>
+                        You have an unpaid order ({{ $activePendingOrder->order_number }}). Cart clearing is disabled until payment is completed and delivery is confirmed.
+                    </div>
+                @endif
             </div>
 
             <div class="col-lg-4">

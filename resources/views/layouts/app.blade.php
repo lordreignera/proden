@@ -49,11 +49,13 @@
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('shop.products') }}">Shop</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('distributor.apply') }}">Become a Distributor</a></li>
                 </ul>
                 <ul class="navbar-nav align-items-center gap-1">
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('cart.index') }}">
                             <i class="fas fa-shopping-cart me-1"></i>Cart
+                            <span id="cartCountBadge" class="cart-count ms-1 @if(empty($navCartCount) || $navCartCount <= 0) d-none @endif">{{ (int) ($navCartCount ?? 0) }}</span>
                         </a>
                     </li>
                     @auth
@@ -68,8 +70,6 @@
                                 <button type="submit" class="btn btn-link nav-link text-white">Logout</button>
                             </form>
                         </li>
-                    @else
-                        <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
                     @endauth
                 </ul>
             </div>
@@ -98,6 +98,79 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        (function () {
+            const cartBadge = document.getElementById('cartCountBadge');
+
+            function updateCartBadge(count) {
+                if (!cartBadge) return;
+
+                const nextCount = Number(count) || 0;
+                cartBadge.textContent = String(nextCount);
+
+                if (nextCount > 0) {
+                    cartBadge.classList.remove('d-none');
+                } else {
+                    cartBadge.classList.add('d-none');
+                }
+            }
+
+            document.addEventListener('submit', async function (event) {
+                const form = event.target;
+                if (!(form instanceof HTMLFormElement)) return;
+
+                const action = form.getAttribute('action') || '';
+                const method = (form.getAttribute('method') || 'GET').toUpperCase();
+
+                if (method !== 'POST' || !action.includes('/cart/add/')) return;
+
+                event.preventDefault();
+
+                const submitButton = form.querySelector('button[type="submit"]');
+                const originalButtonHtml = submitButton ? submitButton.innerHTML : '';
+
+                if (submitButton) {
+                    submitButton.disabled = true;
+                    submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Adding...';
+                }
+
+                try {
+                    const response = await fetch(action, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Accept': 'application/json'
+                        },
+                        body: new FormData(form)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Request failed');
+                    }
+
+                    const payload = await response.json();
+                    updateCartBadge(payload.cartCount);
+
+                    if (submitButton) {
+                        submitButton.innerHTML = '<i class="fas fa-check"></i> Added';
+                        setTimeout(() => {
+                            submitButton.innerHTML = originalButtonHtml;
+                            submitButton.disabled = false;
+                        }, 900);
+                    }
+                } catch (err) {
+                    if (submitButton) {
+                        submitButton.innerHTML = originalButtonHtml;
+                        submitButton.disabled = false;
+                    }
+
+                    // Fallback to regular submission if AJAX fails.
+                    form.submit();
+                }
+            });
+        })();
+    </script>
     @stack('scripts')
 </body>
 </html>

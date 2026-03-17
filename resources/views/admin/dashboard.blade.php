@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Dashboard - Pruden Admin')
+@section('title', 'Dashboard - Proden Admin')
 @section('page-title', 'Dashboard')
 
 @section('styles')
@@ -259,3 +259,4 @@ new Chart(salesCtx, {
 });
 </script>
 @endsection
+

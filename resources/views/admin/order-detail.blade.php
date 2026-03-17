@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Order Details - Pruden Admin')
+@section('title', 'Order Details - Proden Admin')
 @section('page-title', 'Order Details')
 
 @section('content')
@@ -62,15 +62,15 @@
                                         <small class="text-muted">{{ ucfirst(str_replace('_', ' ', $item->product->unit)) }}</small>
                                     </td>
                                     <td class="text-center">{{ $item->quantity }}</td>
-                                    <td class="text-end">₦{{ number_format($item->unit_price, 0) }}</td>
-                                    <td class="text-end"><strong>₦{{ number_format($item->total_price, 0) }}</strong></td>
+                                    <td class="text-end">UGX {{ number_format($item->unit_price, 0) }}</td>
+                                    <td class="text-end"><strong>UGX {{ number_format($item->total_price, 0) }}</strong></td>
                                 </tr>
                             @endforeach
                         </tbody>
                         <tfoot>
                             <tr class="table-light">
                                 <th colspan="3" class="text-end">Total:</th>
-                                <th class="text-end"><h6 class="text-success mb-0">₦{{ number_format($order->total_amount, 0) }}</h6></th>
+                                <th class="text-end"><h6 class="text-success mb-0">UGX {{ number_format($order->total_amount, 0) }}</h6></th>
                             </tr>
                         </tfoot>
                     </table>
@@ -158,3 +158,4 @@ function printOrder() {
 }
 </script>
 @endsection
+

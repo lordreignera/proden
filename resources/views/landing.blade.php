@@ -266,6 +266,54 @@
             color: #fff;
         }
 
+        .distributor-image-cta {
+            display: block;
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            max-width: 680px;
+            margin: 0 auto;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, .22);
+            border: 2px solid rgba(255,255,255,.35);
+            text-decoration: none;
+        }
+
+        .distributor-image-cta img {
+            width: 100%;
+            height: 210px;
+            object-fit: cover;
+            display: block;
+            transition: transform .35s ease;
+        }
+
+        .distributor-image-cta:hover img {
+            transform: scale(1.04);
+        }
+
+        .distributor-image-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,.15) 0%, rgba(0,0,0,.68) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: flex-start;
+            padding: 1rem 1.2rem;
+            color: #fff;
+            text-align: left;
+        }
+
+        .distributor-image-title {
+            font-weight: 800;
+            font-size: 1.2rem;
+            margin-bottom: .15rem;
+        }
+
+        .distributor-image-sub {
+            font-size: .9rem;
+            opacity: .95;
+        }
+
         /* ── CONTACT ── */
         .contact-icon {
             width: 48px; height: 48px;
@@ -336,6 +384,7 @@
             <ul class="navbar-nav me-auto gap-1">
                 <li class="nav-item"><a class="nav-link active" href="#hero">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="#products">Products</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('distributor.apply') }}">Become a Distributor</a></li>
                 <li class="nav-item"><a class="nav-link" href="#benefits">Benefits</a></li>
                 <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
             </ul>
@@ -374,6 +423,14 @@
 
 <!-- ── HERO ────────────────────────────────────────────────── -->
 <section class="hero" id="hero">
+    @if(session('success'))
+        <div class="container pt-3" style="z-index:3; position:relative;">
+            <div class="alert alert-success alert-dismissible fade show mb-3" role="alert">
+                <i class="fas fa-check-circle me-1"></i>{{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        </div>
+    @endif
     <!-- Background video -->
     <video class="hero-video" autoplay muted loop playsinline poster="{{ asset('images/product1.jpeg') }}">
         <source src="{{ asset('images/advert.mp4') }}" type="video/mp4">
@@ -768,9 +825,21 @@
             Browse our full range, add to cart, and pay securely via Mobile Money.
             Fast delivery to your door.
         </p>
-        <a href="{{ route('shop.products') }}" class="btn btn-light btn-lg px-5 fw-700 text-danger shadow">
-            <i class="fas fa-shopping-bag me-2"></i>Shop the Full Range
-        </a>
+        <div class="d-flex flex-wrap justify-content-center gap-3">
+            <a href="{{ route('shop.products') }}" class="btn btn-light btn-lg px-5 fw-700 text-danger shadow">
+                <i class="fas fa-shopping-bag me-2"></i>Shop the Full Range
+            </a>
+        </div>
+
+        <div class="mt-4">
+            <a href="{{ route('distributor.apply') }}" class="distributor-image-cta" aria-label="Become a Proden distributor">
+                <img src="{{ asset('images/share.jpg') }}" alt="Join Proden distributors">
+                <div class="distributor-image-overlay">
+                    <div class="distributor-image-title"><i class="fas fa-user-tie me-2"></i>Become a Distributor</div>
+                    <div class="distributor-image-sub">Grow with Proden in your area. Tap here to apply.</div>
+                </div>
+            </a>
+        </div>
     </div>
 </section>
 

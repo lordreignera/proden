@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Inventory - Pruden Admin')
+@section('title', 'Inventory - Proden Admin')
 @section('page-title', 'Inventory Management')
 
 @section('content')
@@ -135,3 +135,4 @@
     </div>
 </div>
 @endsection
+

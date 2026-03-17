@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit Product - Pruden Admin')
+@section('title', 'Edit Product - Proden Admin')
 @section('page-title', 'Edit Product')
 
 @section('content')
@@ -54,7 +54,7 @@
 
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="price" class="form-label">Price (₦) *</label>
+                            <label for="price" class="form-label">Price (UGX) *</label>
                             <input type="number" id="price" name="price" 
                                    class="form-control @error('price') is-invalid @enderror"
                                    min="0" step="0.01" required value="{{ old('price', $product->price) }}">
@@ -107,3 +107,4 @@
     </div>
 </div>
 @endsection
+

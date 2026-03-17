@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Orders - Pruden Admin')
+@section('title', 'Orders - Proden Admin')
 @section('page-title', 'Orders Management')
 
 @section('content')
@@ -40,7 +40,7 @@
                             </a>
                         </td>
                         <td>
-                            <strong class="text-success">₦{{ number_format($order->total_amount, 0) }}</strong>
+                            <strong class="text-success">UGX {{ number_format($order->total_amount, 0) }}</strong>
                         </td>
                         <td>
                             <span class="badge bg-{{ $order->payment_status === 'completed' ? 'success' : ($order->payment_status === 'failed' ? 'danger' : 'warning') }}">
@@ -102,3 +102,4 @@ document.getElementById('searchInput').addEventListener('keyup', function() {
 });
 </script>
 @endsection
+

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Order Receipt - Pruden')
+@section('title', 'Order Receipt - Proden')
 
 @section('content')
 <div class="container my-5">
@@ -12,7 +12,7 @@
                     <!-- Header -->
                     <div class="text-center mb-5">
                         <h2 style="font-size: 2rem; color: #2c3e50;">
-                            <i class="fas fa-droplet" style="color: #3498db;"></i> PRUDEN
+                            <i class="fas fa-droplet" style="color: #3498db;"></i> PRODEN
                         </h2>
                         <p class="text-muted mb-0">Drinks Distribution</p>
                         <h5 class="mt-4 mb-1">ORDER RECEIPT</h5>
@@ -145,13 +145,18 @@
                     <hr>
                     <div class="text-center text-muted small">
                         <p class="mb-2">Thank you for your order!</p>
-                        <p class="mb-0">For inquiries, please contact us at info@pruden.com | +234 XXX XXX XXXX</p>
+                        <p class="mb-0">For inquiries, please contact us at p.nambuya@prodendistribution.com | +256 772 494618</p>
                     </div>
                 </div>
             </div>
 
             <!-- Action Buttons -->
             <div class="mt-4 d-flex gap-2">
+                @if($order->payment_status === 'pending')
+                    <a href="{{ route('order.success', ['orderId' => $order->id, 'resume' => 1]) }}" class="btn btn-success flex-grow-1">
+                        <i class="fas fa-mobile-alt"></i> Pay Now
+                    </a>
+                @endif
                 <button onclick="window.print()" class="btn btn-primary flex-grow-1">
                     <i class="fas fa-print"></i> Print Receipt
                 </button>

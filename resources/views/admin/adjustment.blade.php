@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Stock Adjustment - Pruden Admin')
+@section('title', 'Stock Adjustment - Proden Admin')
 @section('page-title', 'Adjust Stock')
 
 @section('content')
@@ -74,3 +74,4 @@
     </div>
 </div>
 @endsection
+

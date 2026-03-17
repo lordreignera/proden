@@ -11,6 +11,13 @@
                     <div class="mb-4">
                         <i class="fas fa-check-circle" style="font-size: 5rem; color: #27ae60;"></i>
                     </div>
+
+                    @if(!empty($isResumed) && $isResumed)
+                        <div class="alert alert-warning text-start">
+                            <i class="fas fa-clock me-1"></i>
+                            You already have an unpaid order in progress. Please continue payment for this order instead of creating a new one.
+                        </div>
+                    @endif
                     
                     <h1 class="mb-2">Order Confirmed!</h1>
                     <p class="lead text-muted mb-4">Thank you for your order. We're processing it now.</p>

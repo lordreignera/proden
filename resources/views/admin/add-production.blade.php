@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Add Production - Pruden Admin')
+@section('title', 'Add Production - Proden Admin')
 @section('page-title', 'Add Production')
 
 @section('content')
@@ -94,3 +94,4 @@
     </div>
 </div>
 @endsection
+

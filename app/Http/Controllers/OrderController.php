@@ -9,14 +9,80 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+    private function normalizePhone(?string $phone): string
+    {
+        return preg_replace('/\D+/', '', (string) $phone) ?? '';
+    }
+
+    private function phoneMatches(string $storedPhone, string $inputPhone): bool
+    {
+        if ($storedPhone === '' || $inputPhone === '') {
+            return false;
+        }
+
+        if ($storedPhone === $inputPhone) {
+            return true;
+        }
+
+        return strlen($storedPhone) >= 9 && strlen($inputPhone) >= 9
+            && substr($storedPhone, -9) === substr($inputPhone, -9);
+    }
+
+    private function findPendingOrderByPhone(string $phone): ?Order
+    {
+        $normalized = $this->normalizePhone($phone);
+        if ($normalized === '') {
+            return null;
+        }
+
+        $needle = substr($normalized, -9);
+
+        $candidates = Order::where('payment_status', 'pending')
+            ->whereIn('order_status', ['pending', 'processing'])
+            ->where('customer_phone', 'like', '%' . $needle . '%')
+            ->latest('id')
+            ->limit(30)
+            ->get();
+
+        foreach ($candidates as $candidate) {
+            if ($this->phoneMatches($this->normalizePhone($candidate->customer_phone), $normalized)) {
+                return $candidate;
+            }
+        }
+
+        return null;
+    }
+
     private function getSessionId()
     {
-        return session('cart_session_id') ?? session()->getId();
+        $sessionId = session('cart_session_id');
+
+        if (!$sessionId) {
+            $sessionId = session()->getId();
+            session(['cart_session_id' => $sessionId]);
+        }
+
+        return $sessionId;
     }
 
     public function checkout()
     {
         $sessionId = $this->getSessionId();
+
+        $pendingOrderId = session('pending_order_id');
+        if ($pendingOrderId) {
+            $pendingOrder = Order::where('id', $pendingOrderId)
+                ->where('payment_status', 'pending')
+                ->whereIn('order_status', ['pending', 'processing'])
+                ->first();
+
+            if ($pendingOrder) {
+                return redirect()->route('order.success', ['orderId' => $pendingOrder->id, 'resume' => 1]);
+            }
+
+            session()->forget('pending_order_id');
+        }
+
         $cartItems = Cart::where('session_id', $sessionId)->with('product')->get();
         
         if ($cartItems->isEmpty()) {
@@ -39,6 +105,30 @@ class OrderController extends Controller
         ]);
 
         $sessionId = $this->getSessionId();
+        session(['last_customer_phone' => $validated['customer_phone']]);
+
+        $sessionPendingOrderId = session('pending_order_id');
+        if ($sessionPendingOrderId) {
+            $sessionPendingOrder = Order::where('id', $sessionPendingOrderId)
+                ->where('payment_status', 'pending')
+                ->whereIn('order_status', ['pending', 'processing'])
+                ->first();
+
+            if ($sessionPendingOrder) {
+                return redirect()->route('order.success', ['orderId' => $sessionPendingOrder->id, 'resume' => 1]);
+            }
+
+            session()->forget('pending_order_id');
+        }
+
+        $existingPendingOrder = $this->findPendingOrderByPhone($validated['customer_phone']);
+
+        if ($existingPendingOrder) {
+            session(['last_customer_phone' => $validated['customer_phone']]);
+            session(['pending_order_id' => $existingPendingOrder->id]);
+            return redirect()->route('order.success', ['orderId' => $existingPendingOrder->id, 'resume' => 1]);
+        }
+
         $cartItems = Cart::where('session_id', $sessionId)->with('product')->get();
 
         if ($cartItems->isEmpty()) {
@@ -72,16 +162,26 @@ class OrderController extends Controller
 
         // TODO: Integrate Swap payment gateway here
         // For now, redirect to payment pending page
+
+        session(['pending_order_id' => $order->id]);
         
         Cart::where('session_id', $sessionId)->delete();
 
         return redirect()->route('order.success', $order->id)->with('success', 'Order created! Proceed to payment.');
     }
 
-    public function success($orderId)
+    public function success(Request $request, $orderId)
     {
-        $order = Order::findOrFail($orderId);
-        return view('shop.order-success', compact('order'));
+        $order = Order::with('items.product')->findOrFail($orderId);
+
+        if ($order->payment_status !== 'pending' || $order->order_status === 'cancelled') {
+            if ((int) session('pending_order_id') === (int) $order->id) {
+                session()->forget('pending_order_id');
+            }
+        }
+
+        $isResumed = $request->boolean('resume');
+        return view('shop.order-success', compact('order', 'isResumed'));
     }
 
     public function receipt($orderId)

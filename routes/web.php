@@ -6,7 +6,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\DistributorApplicationController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\DistributorApplicationAdminController;
 use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Admin\ProductAdminController;
 
@@ -26,6 +28,8 @@ Route::middleware('auth')->get('/dashboard', function (Request $request) {
 Route::get('/shop', [ProductController::class, 'index'])->name('shop.products');
 Route::get('/product/{slug}', [ProductController::class, 'show'])->name('product.show');
 Route::get('/category/{category}', [ProductController::class, 'filter'])->name('products.filter');
+Route::get('/become-distributor', [DistributorApplicationController::class, 'create'])->name('distributor.apply');
+Route::post('/become-distributor', [DistributorApplicationController::class, 'store'])->name('distributor.store');
 
 // Cart Routes
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
@@ -59,4 +63,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     
     // Products Management
     Route::resource('products', ProductAdminController::class);
+
+    // Distributor Applications
+    Route::get('/distributors', [DistributorApplicationAdminController::class, 'index'])->name('distributors.index');
+    Route::patch('/distributors/{application}/status', [DistributorApplicationAdminController::class, 'updateStatus'])->name('distributors.status');
 });
