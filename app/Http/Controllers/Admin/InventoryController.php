@@ -24,11 +24,22 @@ class InventoryController extends Controller
     public function storeProduction(Request $request, $productId)
     {
         $validated = $request->validate([
+            'production_date' => 'required|date|before_or_equal:today',
+            'unit_type' => 'required|in:carton,jerry_can,liter',
             'quantity' => 'required|integer|min:1',
             'notes' => 'nullable|string',
         ]);
 
         $product = Product::findOrFail($productId);
+
+        if ($validated['unit_type'] !== $product->unit) {
+            return redirect()->back()->withInput()->withErrors([
+                'unit_type' => 'Selected unit does not match this product unit (' . str_replace('_', ' ', $product->unit) . ').',
+            ]);
+        }
+
+        $unitText = ucfirst(str_replace('_', ' ', $validated['unit_type']));
+        $notes = trim(($validated['notes'] ?? '') . ($validated['notes'] ? ' | ' : '') . 'Unit: ' . $unitText);
 
         // Create inventory record
         Inventory::create([
@@ -36,8 +47,8 @@ class InventoryController extends Controller
             'quantity_produced' => $validated['quantity'],
             'quantity_available' => $validated['quantity'],
             'transaction_type' => 'production',
-            'notes' => $validated['notes'] ?? null,
-            'transaction_date' => now()->toDateString(),
+            'notes' => $notes,
+            'transaction_date' => $validated['production_date'],
         ]);
 
         // Update product stock

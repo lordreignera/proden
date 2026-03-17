@@ -37,7 +37,7 @@
                         <td>{{ $product->category->name }}</td>
                         <td>{{ ucfirst(str_replace('_', ' ', $product->unit)) }}</td>
                         <td>
-                            <strong class="text-success">₦{{ number_format($product->price, 0) }}</strong>
+                            <strong class="text-success">UGX {{ number_format($product->price, 0) }}</strong>
                         </td>
                         <td>
                             <span class="badge bg-{{ $product->stock > 20 ? 'success' : ($product->stock > 10 ? 'warning' : 'danger') }}">

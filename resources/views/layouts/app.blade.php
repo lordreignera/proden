@@ -85,7 +85,8 @@
                 <div class="col-md-6 mb-3 mb-md-0">
                     <h5 class="text-white mb-1"><i class="fas fa-leaf me-2 text-danger"></i>Proden Distribution Co. Ltd</h5>
                     <p class="mb-1 small"><i class="fas fa-map-marker-alt me-2 text-danger"></i>Plot 42A Mukabya Road, Nakawa Industrial Area</p>
-                    <p class="mb-0 small"><i class="fas fa-phone me-2 text-danger"></i>+256 772 / 776 494618 / 772 163703</p>
+                    <p class="mb-1 small"><i class="fas fa-phone me-2 text-danger"></i>+256 772 494618 / +256 772 163703</p>
+                    <p class="mb-0 small"><i class="fas fa-envelope me-2 text-danger"></i>p.nambuya@prodendistribution.com</p>
                 </div>
                 <div class="col-md-6 text-md-end">
                     <p class="text-white mb-1">Proden Distribution Co. Ltd &copy; {{ date('Y') }}</p>

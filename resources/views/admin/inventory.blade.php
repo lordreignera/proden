@@ -41,8 +41,24 @@
                         <td>{{ $product->category->name }}</td>
                         <td>{{ ucfirst(str_replace('_', ' ', $product->unit)) }}</td>
                         <td class="text-center">
-                            <span class="badge bg-{{ $product->stock > 20 ? 'success' : ($product->stock > 10 ? 'warning' : 'danger') }}">
-                                {{ $product->stock }} units
+                            @php
+                                $unit = $product->unit;
+                                $stock = $product->stock;
+                                // Extract litre size from product name e.g. "5L" → 5
+                                preg_match('/([\d.]+)L\b/i', $product->name, $m);
+                                $litres = isset($m[1]) ? (float) $m[1] : null;
+                            @endphp
+                            <span class="badge bg-{{ $stock > 20 ? 'success' : ($stock > 10 ? 'warning' : 'danger') }}">
+                                @if($unit === 'jerry_can')
+                                    {{ $stock }} jerrycan{{ $stock != 1 ? 's' : '' }}
+                                    @if($litres)
+                                        <br><small>({{ number_format($stock * $litres, 0) }} L total)</small>
+                                    @endif
+                                @elseif($unit === 'carton')
+                                    {{ $stock }} carton{{ $stock != 1 ? 's' : '' }}
+                                @else
+                                    {{ $stock }} L
+                                @endif
                             </span>
                         </td>
                         <td class="text-center">
@@ -94,13 +110,23 @@
             @endphp
             @if($lowStockProducts->count() > 0)
                 <ul class="mb-0">
-                    @foreach($lowStockProducts as $product)
-                        <li class="mb-2">
-                            <strong>{{ $product->name }}</strong> - 
-                            <span class="badge bg-danger">{{ $product->stock }} units</span>
-                            <a href="{{ route('admin.inventory.production', $product->id) }}" class="ms-2">Add stock</a>
-                        </li>
-                    @endforeach
+                            @foreach($lowStockProducts as $product)
+                                @php
+                                    preg_match('/([\d.]+)L\b/i', $product->name, $m);
+                                    $litres = isset($m[1]) ? (float) $m[1] : null;
+                                @endphp
+                                <li class="mb-2">
+                                    <strong>{{ $product->name }}</strong> -
+                                    @if($product->unit === 'jerry_can')
+                                        <span class="badge bg-danger">{{ $product->stock }} jerrycan{{ $product->stock != 1 ? 's' : '' }}{{ $litres ? ' (' . number_format($product->stock * $litres, 0) . ' L)' : '' }}</span>
+                                    @elseif($product->unit === 'carton')
+                                        <span class="badge bg-danger">{{ $product->stock }} carton{{ $product->stock != 1 ? 's' : '' }}</span>
+                                    @else
+                                        <span class="badge bg-danger">{{ $product->stock }} L</span>
+                                    @endif
+                                    <a href="{{ route('admin.inventory.production', $product->id) }}" class="ms-2">Add stock</a>
+                                </li>
+                            @endforeach
                 </ul>
             @else
                 <p class="text-success mb-0"><i class="fas fa-check-circle"></i> All products have sufficient stock.</p>

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
@@ -11,6 +12,15 @@ use App\Http\Controllers\Admin\ProductAdminController;
 
 // Landing page
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Post-login dashboard route
+Route::middleware('auth')->get('/dashboard', function (Request $request) {
+    if ($request->user()?->role === 'admin') {
+        return redirect()->route('admin.dashboard');
+    }
+
+    return redirect()->route('shop.products');
+})->name('dashboard');
 
 // Customer Routes
 Route::get('/shop', [ProductController::class, 'index'])->name('shop.products');

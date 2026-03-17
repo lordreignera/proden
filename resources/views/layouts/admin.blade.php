@@ -9,11 +9,11 @@
     <link href="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --success-color: #27ae60;
-            --danger-color: #e74c3c;
-            --warning-color: #f39c12;
+            --primary-color: #8B0000;
+            --secondary-color: #6A1B9A;
+            --success-color: #1B5E20;
+            --danger-color: #C41E3A;
+            --warning-color: #6A1B9A;
         }
 
         body {
@@ -23,7 +23,7 @@
         }
 
         .sidebar {
-            background: linear-gradient(180deg, var(--primary-color) 0%, #34495e 100%);
+            background: linear-gradient(180deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             min-height: 100vh;
             position: fixed;
             left: 0;
@@ -286,8 +286,8 @@
                 <hr style="border-color: rgba(255,255,255,0.2); margin: 10px 0;">
             </li>
             <li>
-                <a href="{{ route('shop.index') }}">
-                    <i class="fas fa-globe"></i> View Store
+                <a href="{{ route('admin.products.index') }}" class="@if(Route::currentRouteName() == 'admin.products.index') active @endif">
+                    <i class="fas fa-store"></i> Store / Products
                 </a>
             </li>
             <li>
@@ -313,7 +313,7 @@
                 <h5 class="mb-0">@yield('page-title', 'Dashboard')</h5>
             </div>
             <div class="d-flex align-items-center gap-3">
-                <a href="{{ route('shop.index') }}" class="btn btn-sm btn-outline-secondary" title="Visit store">
+                <a href="{{ route('shop.products') }}" class="btn btn-sm btn-outline-secondary" title="Visit store">
                     <i class="fas fa-globe"></i> Store
                 </a>
                 <span class="text-muted">{{ Auth::user()->name }}</span>

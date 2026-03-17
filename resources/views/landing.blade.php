@@ -11,17 +11,18 @@
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Playfair+Display:wght@600;700&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
             --red:   #C41E3A;
             --dark:  #8B0000;
             --green: #1B5E20;
-            --gold:  #E8A020;
+            --purple:#6A1B9A;
             --light: #FFF8F8;
             --font-body: 'Sora', sans-serif;
             --font-display: 'Archivo Black', sans-serif;
+            --font-hero-serif: 'Playfair Display', serif;
         }
         * { font-family: var(--font-body); }
         body { background: #fff; overflow-x: hidden; }
@@ -65,6 +66,14 @@
             letter-spacing: -.8px;
             color: #1a0000;
         }
+        .hero-tagline .leadline {
+            font-family: var(--font-hero-serif);
+            font-weight: 700;
+            font-size: .78em;
+            letter-spacing: .2px;
+            line-height: 1.15;
+            color: #231f25;
+        }
         .hero-tagline .accent {
             color: var(--red);
             position: relative;
@@ -75,13 +84,13 @@
             position: absolute;
             left: 0; bottom: 4px;
             width: 100%; height: 5px;
-            background: var(--gold);
+            background: var(--purple);
             border-radius: 3px;
         }
         .hero-tagline .subline {
-            font-family: var(--font-body);
+            font-family: var(--font-display);
             font-size: .88em;
-            font-weight: 800;
+            font-weight: 400;
             letter-spacing: -.3px;
             color: #222;
         }
@@ -106,7 +115,7 @@
             font-size: 1rem;
             transition: all .3s;
         }
-        .btn-hero:hover { background: var(--gold); color: #fff; transform: translateY(-2px); }
+        .btn-hero:hover { background: var(--purple); color: #fff; transform: translateY(-2px); }
         .btn-hero-outline {
             border: 2px solid var(--red);
             color: var(--red);
@@ -139,7 +148,7 @@
 
         /* ── MARQUEE ── */
         .marquee-bar {
-            background: var(--gold);
+            background: var(--purple);
             color: #fff;
             padding: .6rem 0;
             font-weight: 600;
@@ -224,7 +233,10 @@
         .benefit-icon { font-size: 2rem; margin-bottom: .5rem; }
 
         /* ── DILUTION GUIDE ── */
-        .dilution-section { background: linear-gradient(135deg, #4a0000, #8B0000); color: #fff; }
+        .dilution-section {
+            background: linear-gradient(135deg, #f8d7de 0%, #f3c3cf 100%);
+            color: #4b1020;
+        }
         .dilution-card {
             background: rgba(255,255,255,.12);
             border: 1px solid rgba(255,255,255,.25);
@@ -232,8 +244,12 @@
             padding: 1.5rem;
             text-align: center;
         }
-        .dilution-arrow { font-size: 2rem; color: var(--gold); }
-        .dilution-num { font-size: 2.5rem; font-weight: 800; color: var(--gold); }
+        .dilution-arrow { font-size: 2rem; color: var(--purple); }
+        .dilution-num { font-size: 2.5rem; font-weight: 800; color: var(--purple); }
+        .dilution-price-badge {
+            background: var(--purple);
+            color: #fff;
+        }
 
         /* ── GALLERY ── */
         .gallery-img {
@@ -349,7 +365,7 @@
                         </form>
                     </li>
                 @else
-                    <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
+                    {{-- <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li> --}}
                 @endauth
             </ul>
         </div>
@@ -376,7 +392,7 @@
 
                 <!-- headline -->
                 <h1 class="hero-tagline mb-4">
-                    Naturally Crafted<br>
+                    <span class="leadline">Produced from pure</span><br>
                     <span class="accent">Hibiscus &amp; Passion</span><br>
                     <span class="subline">Drinks for Every Occasion</span>
                 </h1>
@@ -426,17 +442,17 @@
         &nbsp;&nbsp;🌺 Hibiscus Ready-to-Drink 300ml &bull;
         🌺 Hibiscus Ready-to-Drink 500ml &bull;
         🥤 Hibiscus Concentrate 1L &bull;
-        🥤 Hibiscus Concentrate 5L &bull;
+        🥤 Hibiscus Concentrate 5L (With Sugar) &bull;
+        ✅ Sugar-Free Hibiscus Concentrate 5L &bull;
         🍈 Passion Concentrate 1L &bull;
         🍵 Hibiscus Petal Tea 200g &bull;
-        ✅ Sugar-Free Hibiscus 5L &bull;
         &nbsp;&nbsp;🌺 Hibiscus Ready-to-Drink 300ml &bull;
         🌺 Hibiscus Ready-to-Drink 500ml &bull;
         🥤 Hibiscus Concentrate 1L &bull;
-        🥤 Hibiscus Concentrate 5L &bull;
+        🥤 Hibiscus Concentrate 5L (With Sugar) &bull;
+        ✅ Sugar-Free Hibiscus Concentrate 5L &bull;
         🍈 Passion Concentrate 1L &bull;
         🍵 Hibiscus Petal Tea 200g &bull;
-        ✅ Sugar-Free Hibiscus 5L &bull;
     </div>
 </div>
 
@@ -448,8 +464,8 @@
             <h2 class="section-title">Product Catalogue</h2>
             <div class="section-line mx-auto"></div>
             <p class="section-subtitle mx-auto">
-                All our drinks are naturally crafted from fresh Hibiscus and Passion fruits.
-                Available as ready-to-drink bottles or convenient concentrate jerrycans.
+                All our drinks are processed from fresh natural Hibiscus and Passion fruits.
+                Available as ready-to-drink and concentrated (dilute to drink).
             </p>
         </div>
 
@@ -467,7 +483,7 @@
                     <div class="card-body d-flex flex-column">
                         <div class="prod-name">🌺 Hibiscus Drink 300ml</div>
                         <div class="prod-meta mb-2">Non-carbonated soft drink &bull; Carton of 12 bottles</div>
-                        <div class="prod-price">Carton of 12</div>
+                        <div class="prod-price">UGX 20,000 <span class="fs-6 fw-500 text-muted">/ carton</span></div>
                         <p class="small text-muted mt-1">
                             Single-serve bottle, perfect for on-the-go.
                             A carton contains 12 × 300ml bottles.
@@ -483,7 +499,7 @@
             <div class="col-sm-6 col-lg-4">
                 <div class="prod-card card h-100">
                     <div class="card-img-wrap">
-                        <img src="{{ asset('images/300.jpeg') }}" alt="Hibiscus 500ml">
+                        <img src="{{ asset('images/500ml.jpg') }}" alt="Hibiscus 500ml">
                         <span class="prod-type-badge badge-rtd">Ready to Drink</span>
                     </div>
                     <div class="card-body d-flex flex-column">
@@ -500,20 +516,29 @@
                 </div>
             </div>
 
-            {{-- Sugar-free 5L --}}
+        </div>
+
+        <!-- ── Concentrates ── -->
+        <h5 class="fw-700 mb-3 text-danger"><i class="fas fa-flask me-2"></i>Concentrates <small class="text-muted fw-400 fs-6">(dilute before drinking)</small></h5>
+        <div class="row g-4 mb-5">
+
+            {{-- Sugar-Free 5L Concentrate --}}
             <div class="col-sm-6 col-lg-4">
                 <div class="prod-card card h-100">
                     <div class="card-img-wrap">
-                        <img src="{{ asset('images/5liters.jpeg') }}" alt="Sugar-free 5L">
-                        <span class="prod-type-badge badge-rtd">Ready to Drink</span>
+                        <img src="{{ asset('images/concetrated.jpg') }}" alt="Sugar-Free Hibiscus Concentrate 5L">
+                        <span class="prod-type-badge badge-conc">Concentrate</span>
                     </div>
                     <div class="card-body d-flex flex-column">
-                        <div class="prod-name">✅ Sugar-Free Hibiscus 5L</div>
-                        <div class="prod-meta mb-2">Sugar-free &bull; Ready to drink &bull; 5 Litre</div>
+                        <div class="prod-name">✅ Sugar-Free Hibiscus Concentrate 5L</div>
+                        <div class="prod-meta mb-2">Jerrycan &bull; No added sugar &bull; Needs dilution</div>
                         <div class="prod-price">UGX 25,000</div>
-                        <p class="small text-muted mt-1">
-                            Enjoy the full flavour of Hibiscus with zero added sugar.
-                            Ready to pour straight from the container.
+                        <div class="dilution-tag">
+                            <i class="fas fa-tint"></i> 5L → 15L ready-to-drink
+                        </div>
+                        <p class="small text-muted mt-2">
+                            Sugar-free concentrate variant. Dilute 1 part concentrate with
+                            2 parts water to make 15 litres of juice.
                         </p>
                         <a href="{{ route('shop.products') }}" class="btn-order mt-auto">
                             <i class="fas fa-shopping-cart me-1"></i>Order Now
@@ -521,17 +546,12 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- ── Concentrates ── -->
-        <h5 class="fw-700 mb-3 text-danger"><i class="fas fa-flask me-2"></i>Concentrates <small class="text-muted fw-400 fs-6">(dilute before drinking)</small></h5>
-        <div class="row g-4 mb-5">
 
             {{-- Hibiscus 1L Concentrate --}}
             <div class="col-sm-6 col-lg-4">
                 <div class="prod-card card h-100">
                     <div class="card-img-wrap">
-                        <img src="{{ asset('images/concetrate.jpeg') }}" alt="Hibiscus 1L Concentrate">
+                        <img src="{{ asset('images/concetrated.jpg') }}" alt="Hibiscus 1L Concentrate">
                         <span class="prod-type-badge badge-conc">Concentrate</span>
                     </div>
                     <div class="card-body d-flex flex-column">
@@ -556,18 +576,18 @@
             <div class="col-sm-6 col-lg-4">
                 <div class="prod-card card h-100">
                     <div class="card-img-wrap">
-                        <img src="{{ asset('images/5liters.jpeg') }}" alt="Hibiscus 5L Concentrate">
+                        <img src="{{ asset('images/concetrated.jpg') }}" alt="Hibiscus Concentrate 5L With Sugar">
                         <span class="prod-type-badge badge-conc">Concentrate</span>
                     </div>
                     <div class="card-body d-flex flex-column">
-                        <div class="prod-name">🌺 Hibiscus Concentrate 5L</div>
-                        <div class="prod-meta mb-2">Jerrycan &bull; Needs dilution</div>
+                        <div class="prod-name">🌺 Hibiscus Concentrate 5L (With Sugar)</div>
+                        <div class="prod-meta mb-2">Jerrycan &bull; With sugar &bull; Needs dilution</div>
                         <div class="prod-price">UGX 50,000</div>
                         <div class="dilution-tag">
                             <i class="fas fa-tint"></i> 5L → 15L ready-to-drink
                         </div>
                         <p class="small text-muted mt-2">
-                            Family / bulk size. One jerrycan yields a full 15 litres
+                            Sweetened family / bulk size concentrate. One jerrycan yields a full 15 litres
                             of ready-to-drink Hibiscus juice after dilution.
                         </p>
                         <a href="{{ route('shop.products') }}" class="btn-order mt-auto">
@@ -581,7 +601,7 @@
             <div class="col-sm-6 col-lg-4">
                 <div class="prod-card card h-100">
                     <div class="card-img-wrap">
-                        <img src="{{ asset('images/concetrate.jpeg') }}" alt="Passion 1L Concentrate">
+                        <img src="{{ asset('images/passion1l.jpg') }}" alt="Passion 1L Concentrate">
                         <span class="prod-type-badge badge-conc">Concentrate</span>
                     </div>
                     <div class="card-body d-flex flex-column">
@@ -601,11 +621,8 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- ── Tea ── -->
-        <h5 class="fw-700 mb-3" style="color:#4A148C"><i class="fas fa-mug-hot me-2"></i>Herbal Tea</h5>
-        <div class="row g-4">
+            {{-- Hibiscus Tea 200g --}}
             <div class="col-sm-6 col-lg-4">
                 <div class="prod-card card h-100">
                     <div class="card-img-wrap">
@@ -629,6 +646,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 </section>
 
@@ -636,7 +654,7 @@
 <section class="dilution-section py-5">
     <div class="container">
         <div class="text-center mb-5">
-            <h2 class="fw-800 mb-2" style="color:var(--gold)">How to Use Concentrates</h2>
+            <h2 class="fw-800 mb-2" style="color:var(--purple)">How to Use Concentrates</h2>
             <p class="opacity-85 mb-0">Our concentrates give you great value — just add water!</p>
         </div>
         <div class="row g-4 justify-content-center">
@@ -647,8 +665,8 @@
                     <div class="dilution-arrow">↓ + 2L water</div>
                     <div class="dilution-num mt-2">3L</div>
                     <div class="opacity-80">Ready to Drink Juice</div>
-                    <div class="mt-3 badge bg-warning text-dark">Hibiscus 1L · UGX 10,000</div>
-                    <div class="mt-1 badge bg-warning text-dark">Passion 1L · UGX 20,000</div>
+                    <div class="mt-3 badge dilution-price-badge">Hibiscus 1L · UGX 10,000</div>
+                    <div class="mt-1 badge dilution-price-badge">Passion 1L · UGX 20,000</div>
                 </div>
             </div>
             <div class="col-md-4">
@@ -658,7 +676,7 @@
                     <div class="dilution-arrow">↓ + 10L water</div>
                     <div class="dilution-num mt-2">15L</div>
                     <div class="opacity-80">Ready to Drink Juice</div>
-                    <div class="mt-3 badge bg-warning text-dark">Hibiscus 5L · UGX 50,000</div>
+                    <div class="mt-3 badge dilution-price-badge">Hibiscus 5L · UGX 50,000</div>
                 </div>
             </div>
             <div class="col-md-4">
@@ -721,17 +739,20 @@
             <div class="section-line mx-auto"></div>
         </div>
         <div class="row g-3">
-            <div class="col-md-6 col-lg-3">
+            <div class="col-md-6 col-lg">
                 <div class="gallery-img"><img src="{{ asset('images/product1.jpeg') }}" alt="Proden Products"></div>
             </div>
-            <div class="col-md-6 col-lg-3">
+            <div class="col-md-6 col-lg">
                 <div class="gallery-img"><img src="{{ asset('images/300.jpeg') }}" alt="300ml &amp; 500ml Bottles"></div>
             </div>
-            <div class="col-md-6 col-lg-3">
+            <div class="col-md-6 col-lg">
                 <div class="gallery-img"><img src="{{ asset('images/5liters.jpeg') }}" alt="5L Container"></div>
             </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="gallery-img"><img src="{{ asset('images/concetrate.jpeg') }}" alt="Concentrate Jerrycans"></div>
+            <div class="col-md-6 col-lg">
+                <div class="gallery-img"><img src="{{ asset('images/concetrated.jpg') }}" alt="Concentrated Drink"></div>
+            </div>
+            <div class="col-md-6 col-lg">
+                <div class="gallery-img"><img src="{{ asset('images/deliver1.jpg') }}" alt="Proden Delivery Truck"></div>
             </div>
         </div>
     </div>
@@ -776,8 +797,17 @@
                     <div>
                         <div class="fw-700 mb-1">Call / WhatsApp</div>
                         <div class="text-muted small">
-                            +256 772 776 494618<br>+256 772 163703
+                            +256 772 494618<br>+256 772 163703
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="d-flex gap-3 align-items-start p-3 rounded-3 bg-light h-100">
+                    <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                    <div>
+                        <div class="fw-700 mb-1">Email</div>
+                        <div class="text-muted small">p.nambuya@prodendistribution.com</div>
                     </div>
                 </div>
             </div>
@@ -819,8 +849,9 @@
                 <h6 class="text-white fw-700 mb-3">Contact</h6>
                 <ul class="list-unstyled small">
                     <li class="mb-1"><i class="fas fa-map-marker-alt me-2 text-danger"></i>Plot 42A Mukabya Road, Nakawa</li>
-                    <li class="mb-1"><i class="fas fa-phone me-2 text-danger"></i>+256 772 776 494618</li>
+                    <li class="mb-1"><i class="fas fa-phone me-2 text-danger"></i>+256 772 494618</li>
                     <li><i class="fas fa-phone me-2 text-danger"></i>+256 772 163703</li>
+                    <li class="mt-1"><i class="fas fa-envelope me-2 text-danger"></i>p.nambuya@prodendistribution.com</li>
                 </ul>
             </div>
         </div>
