@@ -11,8 +11,9 @@ class HomeController extends Controller
     {
         $featuredProducts = Product::where('is_active', true)
             ->with('category')
-            ->take(6)
-            ->get();
+            ->orderBy('category_id')
+            ->get()
+            ->groupBy('category.name');
 
         $categories = Category::whereHas('products', function ($q) {
             $q->where('is_active', true);

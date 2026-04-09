@@ -13,7 +13,7 @@
                 </h5>
             </div>
             <div class="card-body">
-                <form action="{{ route('admin.products.store') }}" method="POST">
+                <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <div class="row mb-3">
@@ -81,6 +81,17 @@
                                class="form-control @error('stock') is-invalid @enderror"
                                min="0" required value="{{ old('stock', 0) }}">
                         @error('stock')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Product Image</label>
+                        <input type="file" id="image" name="image"
+                               class="form-control @error('image') is-invalid @enderror"
+                               accept="image/jpeg,image/jpg,image/png,image/webp">
+                        <div class="form-text">JPEG, JPG, PNG or WEBP. Max 2MB.</div>
+                        @error('image')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>

@@ -139,7 +139,7 @@ class OrderController extends Controller
 
         // Create Order
         $order = Order::create([
-            'order_number' => 'ORD-' . date('YmdHis') . rand(1000, 9999),
+            'order_number' => 'ORD-' . date('y') . str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT),
             'customer_name' => $validated['customer_name'],
             'customer_phone' => $validated['customer_phone'],
             'customer_address' => $validated['customer_address'],

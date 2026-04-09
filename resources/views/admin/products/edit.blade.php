@@ -13,7 +13,7 @@
                 </h5>
             </div>
             <div class="card-body">
-                <form action="{{ route('admin.products.update', $product) }}" method="POST">
+                <form action="{{ route('admin.products.update', $product) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
@@ -85,6 +85,24 @@
                                 Active (available for sale)
                             </label>
                         </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Product Image</label>
+                        @if($product->image)
+                            <div class="mb-2">
+                                <img src="{{ asset('images/' . $product->image) }}" alt="Current image"
+                                     style="height:100px; object-fit:cover; border-radius:6px;">
+                                <div class="form-text">Current image. Upload a new one to replace it.</div>
+                            </div>
+                        @endif
+                        <input type="file" id="image" name="image"
+                               class="form-control @error('image') is-invalid @enderror"
+                               accept="image/jpeg,image/jpg,image/png,image/webp">
+                        <div class="form-text">JPEG, JPG, PNG or WEBP. Max 2MB.</div>
+                        @error('image')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="alert alert-info mb-4">

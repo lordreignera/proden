@@ -529,179 +529,79 @@
         <!-- ── Ready to Drink ── -->
         <h5 class="fw-700 mb-3 text-success"><i class="fas fa-bottle-water me-2"></i>Ready to Drink</h5>
         <div class="row g-4 mb-5">
-
-            {{-- Hibiscus 300ml --}}
+            @foreach($featuredProducts->get('Ready to Drink', collect()) as $product)
             <div class="col-sm-6 col-lg-4">
                 <div class="prod-card card h-100">
                     <div class="card-img-wrap">
-                        <img src="{{ asset('images/300.jpeg') }}" alt="Hibiscus 300ml">
+                        @if($product->image)
+                            <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}">
+                        @else
+                            <div class="img-placeholder" style="background:linear-gradient(135deg,#fce4ec,#f8bbd9);">🌺</div>
+                        @endif
                         <span class="prod-type-badge badge-rtd">Ready to Drink</span>
                     </div>
                     <div class="card-body d-flex flex-column">
-                        <div class="prod-name">🌺 Hibiscus Drink 300ml</div>
-                        <div class="prod-meta mb-2">Non-carbonated soft drink &bull; Carton of 12 bottles</div>
-                        <div class="prod-price">UGX 20,000 <span class="fs-6 fw-500 text-muted">/ carton</span></div>
-                        <p class="small text-muted mt-1">
-                            Single-serve bottle, perfect for on-the-go.
-                            A carton contains 12 × 300ml bottles.
-                        </p>
+                        <div class="prod-name">🌺 {{ $product->name }}</div>
+                        <div class="prod-meta mb-2">{{ $product->description }}</div>
+                        <div class="prod-price">UGX {{ number_format($product->price, 0) }}</div>
                         <a href="{{ route('shop.products') }}" class="btn-order mt-auto">
                             <i class="fas fa-shopping-cart me-1"></i>Order Now
                         </a>
                     </div>
                 </div>
             </div>
-
-            {{-- Hibiscus 500ml --}}
-            <div class="col-sm-6 col-lg-4">
-                <div class="prod-card card h-100">
-                    <div class="card-img-wrap">
-                        <img src="{{ asset('images/500ml.jpg') }}" alt="Hibiscus 500ml">
-                        <span class="prod-type-badge badge-rtd">Ready to Drink</span>
-                    </div>
-                    <div class="card-body d-flex flex-column">
-                        <div class="prod-name">🌺 Hibiscus Drink 500ml</div>
-                        <div class="prod-meta mb-2">Non-carbonated soft drink &bull; Carton of 12 bottles</div>
-                        <div class="prod-price">UGX 30,000 <span class="fs-6 fw-500 text-muted">/ carton</span></div>
-                        <p class="small text-muted mt-1">
-                            Large-format single-serve. 12 bottles per carton.
-                        </p>
-                        <a href="{{ route('shop.products') }}" class="btn-order mt-auto">
-                            <i class="fas fa-shopping-cart me-1"></i>Order Now
-                        </a>
-                    </div>
-                </div>
-            </div>
-
+            @endforeach
         </div>
 
         <!-- ── Concentrates ── -->
         <h5 class="fw-700 mb-3 text-danger"><i class="fas fa-flask me-2"></i>Concentrates <small class="text-muted fw-400 fs-6">(dilute before drinking)</small></h5>
         <div class="row g-4 mb-5">
-
-            {{-- Sugar-Free 5L Concentrate --}}
+            @foreach($featuredProducts->get('Concentrates', collect()) as $product)
             <div class="col-sm-6 col-lg-4">
                 <div class="prod-card card h-100">
                     <div class="card-img-wrap">
-                        <img src="{{ asset('images/concetrated.jpg') }}" alt="Sugar-Free Hibiscus Concentrate 5L">
+                        @if($product->image)
+                            <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}">
+                        @else
+                            <div class="img-placeholder" style="background:linear-gradient(135deg,#e8f5e9,#c8e6c9);">🧴</div>
+                        @endif
                         <span class="prod-type-badge badge-conc">Concentrate</span>
                     </div>
                     <div class="card-body d-flex flex-column">
-                        <div class="prod-name">✅ Sugar-Free Hibiscus Concentrate 5L</div>
-                        <div class="prod-meta mb-2">Jerrycan &bull; No added sugar &bull; Needs dilution</div>
-                        <div class="prod-price">UGX 25,000</div>
-                        <div class="dilution-tag">
-                            <i class="fas fa-tint"></i> 5L → 15L ready-to-drink
-                        </div>
-                        <p class="small text-muted mt-2">
-                            Sugar-free concentrate variant. Dilute 1 part concentrate with
-                            2 parts water to make 15 litres of juice.
-                        </p>
+                        <div class="prod-name">{{ $product->name }}</div>
+                        <div class="prod-meta mb-2">{{ $product->description }}</div>
+                        <div class="prod-price">UGX {{ number_format($product->price, 0) }}</div>
                         <a href="{{ route('shop.products') }}" class="btn-order mt-auto">
                             <i class="fas fa-shopping-cart me-1"></i>Order Now
                         </a>
                     </div>
                 </div>
             </div>
+            @endforeach
 
-            {{-- Hibiscus 1L Concentrate --}}
+            <!-- ── Herbal Tea ── -->
+            @foreach($featuredProducts->get('Herbal Tea', collect()) as $product)
             <div class="col-sm-6 col-lg-4">
                 <div class="prod-card card h-100">
                     <div class="card-img-wrap">
-                        <img src="{{ asset('images/concetrated.jpg') }}" alt="Hibiscus 1L Concentrate">
-                        <span class="prod-type-badge badge-conc">Concentrate</span>
-                    </div>
-                    <div class="card-body d-flex flex-column">
-                        <div class="prod-name">🌺 Hibiscus Concentrate 1L</div>
-                        <div class="prod-meta mb-2">Jerrycan &bull; Needs dilution</div>
-                        <div class="prod-price">UGX 10,000</div>
-                        <div class="dilution-tag">
-                            <i class="fas fa-tint"></i> 1L → 3L ready-to-drink
-                        </div>
-                        <p class="small text-muted mt-2">
-                            Economical concentrate. Mix 1 part concentrate with 2 parts
-                            water to yield 3 litres of delicious Hibiscus juice.
-                        </p>
-                        <a href="{{ route('shop.products') }}" class="btn-order mt-auto">
-                            <i class="fas fa-shopping-cart me-1"></i>Order Now
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            {{-- Hibiscus 5L Concentrate --}}
-            <div class="col-sm-6 col-lg-4">
-                <div class="prod-card card h-100">
-                    <div class="card-img-wrap">
-                        <img src="{{ asset('images/concetrated.jpg') }}" alt="Hibiscus Concentrate 5L With Sugar">
-                        <span class="prod-type-badge badge-conc">Concentrate</span>
-                    </div>
-                    <div class="card-body d-flex flex-column">
-                        <div class="prod-name">🌺 Hibiscus Concentrate 5L (With Sugar)</div>
-                        <div class="prod-meta mb-2">Jerrycan &bull; With sugar &bull; Needs dilution</div>
-                        <div class="prod-price">UGX 50,000</div>
-                        <div class="dilution-tag">
-                            <i class="fas fa-tint"></i> 5L → 15L ready-to-drink
-                        </div>
-                        <p class="small text-muted mt-2">
-                            Sweetened family / bulk size concentrate. One jerrycan yields a full 15 litres
-                            of ready-to-drink Hibiscus juice after dilution.
-                        </p>
-                        <a href="{{ route('shop.products') }}" class="btn-order mt-auto">
-                            <i class="fas fa-shopping-cart me-1"></i>Order Now
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            {{-- Passion 1L Concentrate --}}
-            <div class="col-sm-6 col-lg-4">
-                <div class="prod-card card h-100">
-                    <div class="card-img-wrap">
-                        <img src="{{ asset('images/passion1l.jpg') }}" alt="Passion 1L Concentrate">
-                        <span class="prod-type-badge badge-conc">Concentrate</span>
-                    </div>
-                    <div class="card-body d-flex flex-column">
-                        <div class="prod-name">🍈 Passion Concentrate 1L</div>
-                        <div class="prod-meta mb-2">Jerrycan &bull; Needs dilution</div>
-                        <div class="prod-price">UGX 20,000</div>
-                        <div class="dilution-tag">
-                            <i class="fas fa-tint"></i> 1L → 3L ready-to-drink
-                        </div>
-                        <p class="small text-muted mt-2">
-                            Rich passion-fruit concentrate packed in a jerrycan.
-                            Dilute with 2 parts water to get 3 litres of juice.
-                        </p>
-                        <a href="{{ route('shop.products') }}" class="btn-order mt-auto">
-                            <i class="fas fa-shopping-cart me-1"></i>Order Now
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            {{-- Hibiscus Tea 200g --}}
-            <div class="col-sm-6 col-lg-4">
-                <div class="prod-card card h-100">
-                    <div class="card-img-wrap">
-                        <div class="img-placeholder" style="background: linear-gradient(135deg,#EDE7F6,#D1C4E9);">
-                            🍵
-                        </div>
+                        @if($product->image)
+                            <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}">
+                        @else
+                            <div class="img-placeholder" style="background:linear-gradient(135deg,#EDE7F6,#D1C4E9);">🍵</div>
+                        @endif
                         <span class="prod-type-badge badge-tea">Hibiscus Tea</span>
                     </div>
                     <div class="card-body d-flex flex-column">
-                        <div class="prod-name">🍵 Hibiscus Petal Tea 200g</div>
-                        <div class="prod-meta mb-2">Dried petals &bull; 200g pack</div>
-                        <div class="prod-price">UGX 5,000</div>
-                        <p class="small text-muted mt-2">
-                            Whole dried Hibiscus petals for a warming, antioxidant-rich Hibiscus tea.
-                            Simply steep in hot water and enjoy.
-                        </p>
+                        <div class="prod-name">🍵 {{ $product->name }}</div>
+                        <div class="prod-meta mb-2">{{ $product->description }}</div>
+                        <div class="prod-price">UGX {{ number_format($product->price, 0) }}</div>
                         <a href="{{ route('shop.products') }}" class="btn-order mt-auto">
                             <i class="fas fa-shopping-cart me-1"></i>Order Now
                         </a>
                     </div>
                 </div>
             </div>
+            @endforeach
         </div>
 
     </div>

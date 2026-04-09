@@ -19,9 +19,9 @@ class AdminSeeder extends Seeder
 
         // Create admin user
         User::updateOrCreate(
-            ['email' => 'admin@pruden.com'],
+            ['email' => 'admin@proden.com'],
             [
-                'name' => 'Admin Pruden',
+                'name' => 'Admin Proden',
                 'password' => Hash::make($adminPassword),
                 'role' => 'admin',
                 'email_verified_at' => now(),
@@ -132,7 +132,7 @@ class AdminSeeder extends Seeder
                 'description' => 'Whole dried Hibiscus petals for antioxidant-rich herbal tea.',
                 'price' => 5000,
                 'unit' => 'carton',
-                'image' => 'product1.jpeg',
+                'image' => 'hibiscustea.jpeg',
                 'stock' => 70,
                 'is_active' => true,
             ],

@@ -30,7 +30,15 @@
                     </div>
 
                     <div class="row text-center mb-4">
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
+                            <div class="card border-light">
+                                <div class="card-body">
+                                    <h6 class="text-muted mb-2">Order Date</h6>
+                                    <p class="mb-0 fw-semibold">{{ $order->created_at->format('d M Y, H:i') }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
                             <div class="card border-light">
                                 <div class="card-body">
                                     <h6 class="text-muted mb-2">Order Total</h6>
@@ -38,7 +46,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                             <div class="card border-light">
                                 <div class="card-body">
                                     <h6 class="text-muted mb-2">Payment Status</h6>
